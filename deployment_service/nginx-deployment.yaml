@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment              # Specifies the type of resource to create
+metadata:
+  name: nginx-deployment      # Name of the deployment
+  labels:
+    app: nginx
+spec:                         # Specification of the deployment
+  replicas: 2                 # Number of pods to be created
+  selector:
+    matchLabels:
+      app: nginx
+  template:                   # Template for creating the pods
+    metadata:
+      labels:
+        app: nginx
+    spec:                     # Specification of the pod
+      containers:
+      - name: nginx
+        image: nginx:1.25.4-alpine   # Image to be used for the pod
+        ports:
+        - containerPort: 80
