@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment              # Specifies the type of resource to create
+metadata:
+  name: mongodb-deployment      # Name of the deployment
+  labels:
+    app: mongodb
+spec:                         # Specification of the deployment
+  replicas: 1                 # Number of pods to be created
+  selector:
+    matchLabels:
+      app: mongodb
+  template:                   # Template for creating the pods
+    metadata:
+      labels:
+        app: mongodb
+    spec:                     # Specification of the pod
+      containers:
+      - name: mongodb
+        image: mongo          # Image to be used for the pod
+        ports:
+        - containerPort: 27017
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-secrets
+              key: mongo-root-username
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-secrets
+              key: mongo-root-password
